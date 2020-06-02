@@ -1,0 +1,59 @@
+{% extends 'shop/base.html' %}
+{% block body %}
+
+
+
+
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="card card-sm">
+                <div class="card-body row no-gutters align-items-center">
+                    <div style="padding-right: 25px;" class="col">
+                        <input type="search" name="item_name" placeholder="Search for dishes..." class="form-control form-control-borderless">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-success" type="submit"> Search </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br> <br>
+    <div class="row">
+        {%  for item in item_objects %}
+
+        <div class="col-md-6 col-sm-6 col-lg-4 col-xs-6">
+            <div class="card">
+                <img height="200px" width="300px" src="{{ item.image }}" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-title">
+                        {{ item.title }}
+                    </div>
+                    <div class="card-text">
+                        Rs. {{ item.price }}
+                    </div>
+                </div>
+            </div>
+        <br>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if item_objects.has_other_pages %}
+  <ul class="pagination">
+
+    {% for i in item_objects.paginator.page_range %}
+      {% if item_objects.number == i %}
+        <li class="btn btn-info mb-4"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a class="btn btn-outline-info mb-4" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+  </ul>
+{% endif %}
+
+    </div>
+
+{% endblock %}

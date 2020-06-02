@@ -1,0 +1,44 @@
+body{
+    font-family: Tahoma;
+}
+
+
+.navbar {
+    background-color: white;
+    padding: 15px;
+}
+.navbar-brand , .nav-item{
+    color: red;
+}
+.nvb{
+    border: 1px solid white;
+    padding: 10px;
+    box-shadow: 2px 3px lightgray;
+}
+.container{
+    padding: 50px;
+}
+.card-text{
+    color: green;
+    font-weight: bolder;
+}
+.card-title{
+    font-weight: bolder;
+}
+
+@media only screen and (max-width: 600px) {
+    .card-img-top  {
+        margin: 0 auto;
+        height: 220px;
+        width: 100%;
+    }
+     .card-title , .card-text{
+         text-align: center;
+     }
+}
+.btn{
+    margin: 5px;
+}
+.pagination{
+    margin-left: 30%;
+}
