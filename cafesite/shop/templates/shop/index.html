@@ -24,21 +24,30 @@
         {%  for item in item_objects %}
 
         <div class="col-md-6 col-sm-6 col-lg-4 col-xs-6">
-            <div class="card">
+            <div class="card index-card">
                 <img height="200px" width="300px" src="{{ item.image }}" class="card-img-top">
                 <div class="card-body">
-                    <div class="card-title">
+                    <div id="name{{ item.id }}" class="card-title">
                         {{ item.title }}
                     </div>
                     <div class="card-text">
+                        <a tabindex="0" href="#" id="cart_items" data-placement="left" role="button" data-toggle="popover" data-trigger="focus" data-content="Added to favourites" ><i class="far fa-heart" style="font-size: 25px;color: red; margin: 8px;"></i></a>
+
                         Rs. {{ item.price }}
                     </div>
+                    <a href="{% url 'detail' item.id %}" class="btn btn-outline-info"> View </a>
+                    <button id="{{ item.id }}"class="btn btn-outline-danger atc" tabindex="0" data-placement="right" role="button" data-toggle="popover" data-trigger="focus" data-content="Added to card!"> Add to Cart </button>
+
+
                 </div>
             </div>
         <br>
         </div>
         {% endfor %}
     </div>
+
+
+
 
     {% if item_objects.has_other_pages %}
   <ul class="pagination">

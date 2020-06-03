@@ -4,14 +4,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/0559096e5d.js" crossorigin="anonymous"></script>
+
+
     <link rel="stylesheet" href="{% static 'shop/style.css' %}">
+    <title>El Cafe</title>
 
 </head>
 <body>
@@ -19,11 +26,20 @@
         <a href="#" class="navbar-brand"> El Cafe </a>
 
         <div class="navbar">
+            <a href="{% url 'index' %}" class="nav-item nav-link"> Menu </a>
+
             <a href="#" class="nav-item nav-link"> Category </a>
+
+
+
+            <a tabindex="0" data-html="true" href="#" id="cart_items" class="btn btn-lg btn-danger" data-placement="bottom" role="button" data-toggle="popover" data-trigger="focus" title="<h5>Cart Items</h5>" data-content="Your cart is empty! Continue Exploring..">Cart</a>
+
+
             <a href="#" class="nav-item nav-link"> Profile </a>
 
             <a href="#" class="nav-item nav-link"> Register </a>
-            <a href="#" class="nav-item nav-link"> Log In </a>
+            <a href="#"  class="nav-item nav-link"> Log In </a>
+
 
 
         </div>
@@ -42,4 +58,55 @@
 
 
 </body>
+<script type="text/javascript">
+
+    if(localStorage.getItem('cart')==null){
+        var cart={};
+    }
+    else{
+        cart = JSON.parse(localStorage.getItem('cart'));
+
+    }
+    var len = Object.keys(cart).length;
+    document.getElementById("cart_items").innerHTML = "Cart("+(len)+")";
+
+    $(document).on('click','.atc',function(){
+        var item_id = this.id.toString();
+        console.log(item_id);
+
+        if(cart[item_id]!=undefined){
+            cart[item_id] = cart[item_id] + 1;
+
+        }
+        else{
+            cart[item_id] = 1;
+        }
+        console.log(cart);
+        localStorage.setItem('cart',JSON.stringify(cart));
+        document.getElementById("cart_items").innerHTML = "Cart("+(Object.keys(cart).length)+")";
+        disp_cart(cart);
+    });
+
+ $(function () {
+  $('[data-toggle="popover"]').popover();
+})
+$('.popover-dismiss').popover({
+  trigger: 'focus'
+})
+
+    disp_cart(cart);
+    function disp_cart(cart){
+        var cart_string = "";
+        var cart_index = 1;
+        for(var x in cart){
+            cart_string += "<h5>"+cart_index+". ";
+            cart_string += document.getElementById("name"+x).innerHTML + "Quantity :"+ cart[x]+"</h5><br>";
+            cart_index += 1;
+        }
+        document.getElementById("cart_items").setAttribute('data-content',cart_string);
+
+    }
+
+
+</script>
 </html>
