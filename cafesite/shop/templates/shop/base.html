@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +16,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/0559096e5d.js" crossorigin="anonymous"></script>
-
+    <base href="/">
 
     <link rel="stylesheet" href="{% static 'shop/style.css' %}">
     <title>El Cafe</title>
@@ -33,12 +34,19 @@
 
 
             <a tabindex="0" data-html="true" href="#" id="cart_items" class="btn btn-lg btn-danger" data-placement="bottom" role="button" data-toggle="popover" data-trigger="focus" title="<h5>Cart Items</h5>" data-content="Your cart is empty! Continue Exploring..">Cart</a>
+            <a href="{% url 'reviews' %}" class="nav-item nav-link"> Reviews </a>
 
 
-            <a href="#" class="nav-item nav-link"> Profile </a>
+            {% if user.is_authenticated %}
+                <a href="#" class="nav-item nav-link"> Orders </a>
+                <a href="{% url 'profile' %}" class="nav-item nav-link"> Profile </a>
+                <a href="{% url 'logout' %}"  class="nav-item nav-link"> Log out </a>
 
-            <a href="#" class="nav-item nav-link"> Register </a>
-            <a href="#"  class="nav-item nav-link"> Log In </a>
+                {% else  %}
+                <a href="{% url 'register' %}" class="nav-item nav-link"> Register </a>
+                <a href="{% url 'login' %}"  class="nav-item nav-link"> Log In </a>
+            {% endif %}
+
 
 
 
@@ -62,17 +70,21 @@
 
     if(localStorage.getItem('cart')==null){
         var cart={};
+        var item_name={};
+        var item_price={};
+        var item_discounted_price={};
     }
     else{
         cart = JSON.parse(localStorage.getItem('cart'));
-
+        item_name =  JSON.parse(localStorage.getItem('item_name'));
+        item_price =  JSON.parse(localStorage.getItem('item_price'));
+        item_discounted_price = JSON.parse(localStorage.getItem('item_discounted_price'));
     }
     var len = Object.keys(cart).length;
     document.getElementById("cart_items").innerHTML = "Cart("+(len)+")";
 
     $(document).on('click','.atc',function(){
         var item_id = this.id.toString();
-        console.log(item_id);
 
         if(cart[item_id]!=undefined){
             cart[item_id] = cart[item_id] + 1;
@@ -81,10 +93,26 @@
         else{
             cart[item_id] = 1;
         }
-        console.log(cart);
+        if(item_name[item_id]==undefined){
+            item_name[item_id] =document.getElementById("name"+item_id).innerHTML;
+
+        }
+        if(item_price[item_id]==undefined){
+            console.log(document.getElementById("price"+item_id).innerHTML);
+            item_price[item_id] =document.getElementById("price"+item_id).innerHTML;
+
+        }
+        if(item_discounted_price[item_id]==undefined){
+             console.log(document.getElementById("discprice"+item_id).innerHTML);
+            item_discounted_price[item_id] =document.getElementById("discprice"+item_id).innerHTML;
+
+        }
+        localStorage.setItem('item_name',JSON.stringify(item_name));
+        localStorage.setItem('item_price',JSON.stringify(item_price));
+        localStorage.setItem('item_discounted_price',JSON.stringify(item_discounted_price));
         localStorage.setItem('cart',JSON.stringify(cart));
-        document.getElementById("cart_items").innerHTML = "Cart("+(Object.keys(cart).length)+")";
         disp_cart(cart);
+        document.getElementById("cart_items").innerHTML = "Cart("+(Object.keys(cart).length)+")";
     });
 
  $(function () {
@@ -94,18 +122,22 @@ $('.popover-dismiss').popover({
   trigger: 'focus'
 })
 
-    disp_cart(cart);
-    function disp_cart(cart){
-        var cart_string = "";
-        var cart_index = 1;
-        for(var x in cart){
-            cart_string += "<h5>"+cart_index+". ";
-            cart_string += document.getElementById("name"+x).innerHTML + "Quantity :"+ cart[x]+"</h5><br>";
-            cart_index += 1;
-        }
-        document.getElementById("cart_items").setAttribute('data-content',cart_string);
 
-    }
+        disp_cart(cart);
+
+        function disp_cart(cart) {
+            var cart_string = "";
+            var cart_index = 1;
+            for (var x in cart) {
+                cart_string += '<h6>' + cart_index + '. <span class="cart-heading">' + item_name[x] + '</span> <b> x ' + cart[x] + '</b></h6>';
+                cart_index += 1;
+            }
+
+            cart_string += "<a style='margin-left: 20%;' href='/checkout'> <button class='btn btn-warning' id='checkout'>Checkout</button></a>";
+            document.getElementById("cart_items").setAttribute('data-content', cart_string);
+
+        }
+
 
 
 </script>

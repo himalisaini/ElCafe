@@ -1,5 +1,6 @@
 body{
-    font-family: Tahoma;
+    font-family: Tahoma, monospace;
+
 }
 
 
@@ -68,4 +69,31 @@ body{
     text-align: center;
 }
 
+.checkout-box{
+    margin: 0 auto;
+    height: 80%;
+    width: 80%;
+    text-align: left;
+}
+
+.content-section {
+  padding: 2%;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+    height: 40%;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.account-img {
+  height: 125px;
+  width: 150px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
 }

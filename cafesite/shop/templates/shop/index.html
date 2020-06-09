@@ -33,16 +33,19 @@
                     <div class="card-text">
                         <a tabindex="0" href="#" id="cart_items" data-placement="left" role="button" data-toggle="popover" data-trigger="focus" data-content="Added to favourites" ><i class="far fa-heart" style="font-size: 25px;color: red; margin: 8px;"></i></a>
 
-                        Rs. {{ item.price }}
+                        <span id="price{{ item.id }}">  Rs. {{ item.price }} </span>
                     </div>
+
                     <a href="{% url 'detail' item.id %}" class="btn btn-outline-info"> View </a>
                     <button id="{{ item.id }}"class="btn btn-outline-danger atc" tabindex="0" data-placement="right" role="button" data-toggle="popover" data-trigger="focus" data-content="Added to card!"> Add to Cart </button>
+                    <div style="font-size: 0.001px;" id="discprice{{ item.id }}">  Rs. {{ item.discount_price }} </div>
 
 
                 </div>
             </div>
         <br>
         </div>
+
         {% endfor %}
     </div>
 

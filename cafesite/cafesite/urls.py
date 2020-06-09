@@ -15,11 +15,33 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from shop import views
+from shop import views as shop_views
+from users import views as users_views
+from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #index
-    path('',views.index,name='index'),
-    path('<int:id>/',views.detail,name='detail'),
+    path('',shop_views.index,name='index'),
+    path('<int:id>/',shop_views.detail,name='detail'),
+    path('checkout/',shop_views.checkout,name='checkout'),
+    path('billing/',shop_views.billing,name='billing'),
+    path('order/<int:id>/',shop_views.order_details,name='order_details'),
+    path('register/', users_views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('profile/', users_views.profile, name='profile'),
+    path('password-reset/', auth_views.PasswordResetView.as_view(template_name='users/reset_password.html'),
+         name='password_reset'),
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='users/reset_password_done.html'),
+         name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='users/reset_password_confirm.html'),
+         name='password_reset_confirm'),
+    path('review/', shop_views.reviews, name='reviews'),
+    path('receipt/<int:id>/', shop_views.receipt, name="receipt"),
+
 ]
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

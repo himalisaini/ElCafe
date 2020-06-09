@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Order Receipt</title>
+    <style>
+        body{
+            font-family: Tahoma ;
+
+        }
+      .container{
+        margin:10%;
+      }
+      .card-header{
+        font-weight: bold;
+        font-size: 25px;
+        padding: 1%;
+      }
+      .list-group{
+        padding: 1%;
+        border-style: ridge;
+        border-bottom: 0px;
+        font-size:17px;
+      }
+       .list-groupl{
+        padding: 1%;
+        border-style: ridge;
+      }
+      .footer{
+        padding: 2%;
+        font-size:20px;
+        font-weight:bold;
+      }
+      </style>
+
+  </head>
+  <body>
+
+<div class="container">
+    <div class="card text-center">
+  <div class="card-header">
+    Order Summary
+  </div>
+  <div class="card-body">
+      <div class="list-group"> Order ID : #4970{{ obj.id }}
+      </div>
+      <div class="list-group"> Ordered by : {{ obj.first_name }} {{ obj.last_name }}
+      </div>
+      <div class="list-group"> Delivery Address : {{ obj.address }}
+      </div>
+      <div class="list-group"> Item Summary :
+      </div>
+      <div class="list-group">  Total Price : Rs.
+      </div>
+      <div class="list-group"> Discount Applied : Rs.
+      </div>
+      <div class="list-group"> Final Amount : Rs.
+      </div>
+      <div class="list-group"> Payment mode : {{ obj.payment_mode }}
+      </div>
+      <div class="list-group"> Date : {{ obj.order_date }}
+      </div>
+      <div class="list-groupl"> Order Time : {{ obj.order_time }}
+      </div>
+
+      <div class="footer"> Order will be delivered by : {{ obj.delivery_time }}
+      </div>
+
+      <div class="footer"> Thank you for ordering!
+      </div>
+
+  </div>
+
+    </div>
+    </div>
+
+  </body>
+</html>

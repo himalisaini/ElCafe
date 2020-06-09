@@ -1,0 +1,43 @@
+{% extends 'shop/base.html' %}
+{% block body %}
+
+
+    <div class="container checkout-box">
+    <div class="card text-center">
+  <div class="card-header">
+    Order Details
+  </div>
+  <div class="card-body">
+      <div class="list-group"> Order ID : #4970{{ obj.id }}
+      </div>
+      <div class="list-group"> Ordered by : {{ obj.first_name }} {{ obj.last_name }}
+      </div>
+      <div class="list-group"> Delivery Address : {{ obj.address }}
+      </div>
+      <div class="list-group"> Item Summary :
+      </div>
+      <div class="list-group">  Total Price : Rs.
+      </div>
+      <div class="list-group"> Discount Applied : Rs.
+      </div>
+      <div class="list-group"> Final Amount : Rs.
+      </div>
+      <div class="list-group"> Payment mode : {{ obj.payment_mode }}
+      </div>
+      <div class="list-group"> Date : {{ obj.order_date }}
+      </div>
+      <div class="list-group"> Order Time : {{ obj.order_time }}
+      </div>
+
+      <div class="list-group"> Order will be delivered by : {{ obj.delivery_time }}
+      </div>
+
+      <div class="list-group"> Thank you for ordering!
+      </div>
+        <a href="#" class="btn btn-primary"> Download Receipt </a>
+  </div>
+
+    </div>
+    </div>
+
+{% endblock %}

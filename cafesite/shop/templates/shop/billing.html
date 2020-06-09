@@ -1,0 +1,26 @@
+{% extends 'shop/base.html' %}
+{% block body %}
+    {% load crispy_forms_tags %}
+
+
+
+   <div class="content-section">
+     <form method="POST">{% csrf_token %}
+              <fieldset class="form-group">
+                  <legend class="border-bottom mb-4"> Billing Information </legend>
+                  {{ form|crispy }}
+              </fieldset>
+        <div class="form-group" style="text-align: center;">
+        <button type="submit" class="btn btn-info">Order</button>
+            </div>
+          </form>
+
+          <div class="border-top pt-3">
+              <small class="text-muted">
+                  Want to add more dishes?
+                  <a class="ml-2" href="{% url 'index' %}"> Explore More </a>
+              </small>
+          </div>
+    </div>
+
+{% endblock %}

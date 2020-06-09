@@ -1,0 +1,51 @@
+{% extends 'shop/base.html' %}
+{% block body %}
+
+    <script>
+    window.onload = function() {
+
+        var cart_string = "";
+        var cart_index = 1;
+        cart_string += "<div class='table-responsive'><table class='table table-striped'><thead>"+
+                "<tr><th scope='col'>No.</th><th scope='col'>Item name</th><th scope='col'>Price</th> <th scope='col'> Discounted Price</th><th scope='col'>Quantity</th><th scope='col'>Subtotal</th> </tr></thead><tbody>";
+
+        var total = 0;
+        for (var x in cart) {
+
+            var sub = item_discounted_price[x].slice(5) * cart[x];
+            total = total + sub;
+            console.log(sub);
+
+            cart_string +=
+                "<tr><th scope='row'>"+cart_index+"</th><td><a href='#'> "+item_name[x]+"</a></td><td>"+item_price[x]+"</td><td>"+item_discounted_price[x]+"</td><td>"+cart[x]+"</td><td style='background-color: green;border-radius:10px;' class='badge badge-primary badge-pill'>"+sub+"</td></tr>";
+
+            cart_index += 1;
+        }
+         cart_string += "</tbody></table>"+
+                 "<div class=\"alert alert-info\" role=\"alert\">\n" +
+             " Your Total Price is Rs. <b>" + total +
+             "</b></div>";
+        document.getElementById("co-list").innerHTML = cart_string;
+    }
+
+    </script>
+
+    <div class="container checkout-box">
+    <div class="card text-center">
+  <div class="card-header">
+    Checkout
+  </div>
+  <div class="card-body">
+    <h5  class="card-title">Cart Items</h5>
+      <div class="list-group">
+    <div id="co-list"></div>
+
+    </div>
+    <br>
+    <a href="{% url 'billing' %}" class="btn btn-primary"> Proceed </a>
+  </div>
+    </div>
+    </div>
+
+
+{% endblock %}
