@@ -2,20 +2,26 @@ body{
     font-family: Tahoma, monospace;
 
 }
-
-
 .navbar {
     background-color: #f2f2f2;
-    padding: 15px;
+    padding: 12px;
 }
-.navbar-brand , .nav-item{
+ .nav-item{
     color: red;
+    font-size: 16px;
+}
+.navbar-brand{
+    color: red;
+    font-size: 28px;
+    font-family: fantasy;
+    font-weight: bolder;
 }
 .nvb{
     border: 1px solid white;
     padding: 10px;
     box-shadow: 2px 3px lightgray;
 }
+
 .container{
     padding: 50px;
 }
@@ -62,9 +68,10 @@ body{
     transition: 0.3s;
      background-color: #f2f2f2;
 }
-.detail-card,.index-card:hover{
+.index-card,.detail-card,.review:hover{
      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
+
 .card-body{
     text-align: center;
 }
@@ -95,5 +102,50 @@ body{
 }
 
 .account-heading {
-  font-size: 2.5rem;
+  font-size: 30px;
 }
+
+.article-title {
+  color: steelblue;
+    font-size: 25px;
+}
+
+a.article-title:hover {
+  color: darkslategrey;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+    font-size: 15px;
+}
+
+.article-img {
+  height: 60px;
+  width: 65px;
+  margin-right: 10px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+.review{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+
+

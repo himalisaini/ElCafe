@@ -20,13 +20,14 @@ from users import views as users_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from shop.views import ReviewDetail , ReviewCreate , ReviewUpdate , ReviewDelete , BillingCreate
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',shop_views.index,name='index'),
     path('<int:id>/',shop_views.detail,name='detail'),
     path('checkout/',shop_views.checkout,name='checkout'),
-    path('billing/',shop_views.billing,name='billing'),
+    path('myorders/',shop_views.myorders,name='myorders'),
     path('order/<int:id>/',shop_views.order_details,name='order_details'),
     path('register/', users_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
@@ -40,6 +41,11 @@ urlpatterns = [
          name='password_reset_confirm'),
     path('review/', shop_views.reviews, name='reviews'),
     path('receipt/<int:id>/', shop_views.receipt, name="receipt"),
+    path('review/<int:pk>/',ReviewDetail.as_view(),name='review-detail'),
+    path('review/new/', ReviewCreate.as_view(), name='review-create'),
+    path('billing/', BillingCreate.as_view(), name='billing'),
+    path('review/update/<int:pk>/', ReviewUpdate.as_view(), name='review-update'),
+    path('review/delete/<int:pk>/', ReviewDelete.as_view(), name='review-delete'),
 
 ]
 

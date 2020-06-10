@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from .models import Item , BillingModel
+from .models import Item , BillingModel , Review
 from .forms import BillingForm
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -7,7 +7,9 @@ from django.contrib import messages
 from django.template import loader
 import pdfkit
 from django.http import HttpResponse
-
+from django.views.generic import DetailView , CreateView , UpdateView , DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 
 
@@ -37,20 +39,21 @@ def checkout(request):
     return render(request,'shop/checkout.html')
 
 
-@login_required
-def billing(request):
-    if request.method == "POST":
-        form = BillingForm(request.POST)
-        if form.is_valid():
-            order = form.save()
-            nl = '\n'
-            messages.success(request, f"Order placed successfully!{nl}Please check your mail for confirmation!{nl}"
-                                      f"Check the Orders section for the receipt!"
-                                      f"{nl}Keep ordering!!")
-            return redirect('index')
-    else:
-        form = BillingForm()
-    return render(request, 'shop/billing.html', {'form': form})
+class BillingCreate(LoginRequiredMixin,CreateView):
+    model = BillingModel
+    fields = ['first_name','last_name','email','phone_number','address','payment_mode']
+    template_name = 'shop/billing.html'
+
+    def form_valid(self, form):
+        form.instance.customer = self.request.user
+        form.instance.cart_items = self.request.POST.get('item_list',"")
+        form.instance.item_quantity = self.request.POST.get('item_quantity', "")
+        form.instance.item_price = self.request.POST.get('item_list_price', "")
+        form.instance.item_disc = self.request.POST.get('item_list_disc', "")
+        form.instance.total_price = self.request.POST.get('total_price', "")
+        form.instance.discount_applied = self.request.POST.get('disc_applied', "")
+        form.instance.final_amount = self.request.POST.get('final_amount', "")
+        return super().form_valid(form)
 
 
 @login_required
@@ -60,7 +63,67 @@ def order_details(request,id):
 
 
 def reviews(request):
-    return render(request,'shop/review.html')
+    posts = Review.objects.all()
+    context = {
+        'posts' : posts
+    }
+    return render(request,'shop/review.html',context)
+
+
+@login_required
+def myorders(request):
+    obj = BillingModel.objects.all()
+    obj = obj.filter(customer=request.user.pk)
+
+    return render(request,'shop/myorders.html',{'obj':obj})
+
+
+class ReviewDetail(DetailView):
+    model = Review
+    template_name = 'shop/review_detail.html'
+
+
+class ReviewCreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
+    model = Review
+    fields = ['title','content']
+    success_url = '/review/'
+    success_message = "Your review has been posted!"
+    template_name = 'shop/review_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class ReviewUpdate(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model = Review
+    fields = ['title','content']
+    success_url = '/review/'
+    success_message = "Your review has been updated!"
+    template_name = 'shop/review_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        review = self.get_object()
+        if self.request.user == review.author:
+            return True
+        return False
+
+
+class ReviewDelete(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model = Review
+    template_name = 'shop/review_confirm_delete.html'
+    success_url = '/review/'
+    success_message = "Your review has been deleted!"
+
+    def test_func(self):
+        review = self.get_object()
+        if self.request.user == review.author:
+            return True
+        return False
 
 
 def receipt(request,id):
@@ -76,3 +139,5 @@ def receipt(request,id):
     response['Content-Disposition'] = 'attachment'
 
     return response
+
+

@@ -1,0 +1,23 @@
+{% extends 'shop/base.html' %}
+{% block body %}
+    <div class="container">
+<div class="list-group">
+    {% for o in obj %}
+  <a href="{% url 'order_details' o.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1"> Order ID #4970{{ o.id }} </h5>
+      <small>{{ o.order_date }}</small>
+    </div>
+    <p class="mb-1"> Items : {{ o.cart_items }} </p>
+      Total price
+      <span class="badge badge-primary badge-pill" style="background-color: forestgreen"> Rs.{{ o.final_amount  }} </span>
+
+    <small style="margin-left: 10px;"> Payment mode: {{ o.payment_mode }}</small>
+  </a>
+    {% endfor %}
+
+</div>
+
+    </div>
+
+{% endblock %}

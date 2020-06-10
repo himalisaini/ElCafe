@@ -2,42 +2,42 @@
 {% block body %}
 
 
-    <div class="container checkout-box">
-    <div class="card text-center">
-  <div class="card-header">
-    Order Details
-  </div>
+    <div class="container checkout-box" style="text-align: center;">
+    <div class="container">
+    <div class="card">
+  <div class="card-header text-muted"> Order ID : #4970{{ obj.id }} </div>
   <div class="card-body">
-      <div class="list-group"> Order ID : #4970{{ obj.id }}
+      <p> Ordered by : {{ obj.first_name }} {{ obj.last_name }} </p>
+      <div class="border p-2"><i class="fas fa-address-card">     Delivery Address : </i><br>{{ obj.address }} </div>
+      <div class="border p-2">  <i class="fas fa-pizza-slice">    Item Summary :  </i> <br> {{ obj.cart_items }}</div>
+      <div class="border p-2">  <i class="fas fa-rupee-sign">     Amount Details :  </i> <br>
+          <div class="list-group p-2">  Total Price : Rs. {{ obj.total_price }}
       </div>
-      <div class="list-group"> Ordered by : {{ obj.first_name }} {{ obj.last_name }}
+      <div class="list-group p-2"> Discount Applied : Rs. {{ obj.discount_applied }}
       </div>
-      <div class="list-group"> Delivery Address : {{ obj.address }}
+      <div class="list-group p-2"> Final Amount : Rs. {{ obj.final_amount }}
       </div>
-      <div class="list-group"> Item Summary :
+      <div class="list-group p-2"> Payment mode : {{ obj.payment_mode }}
       </div>
-      <div class="list-group">  Total Price : Rs.
-      </div>
-      <div class="list-group"> Discount Applied : Rs.
-      </div>
-      <div class="list-group"> Final Amount : Rs.
-      </div>
-      <div class="list-group"> Payment mode : {{ obj.payment_mode }}
-      </div>
-      <div class="list-group"> Date : {{ obj.order_date }}
-      </div>
-      <div class="list-group"> Order Time : {{ obj.order_time }}
       </div>
 
-      <div class="list-group"> Order will be delivered by : {{ obj.delivery_time }}
+      <div class="border p-2">  <i class="fas fa-clock">   Time of Order :  </i> <br>
+
+      <div class="list-group p-2"> Date : {{ obj.order_date }}
+      </div>
+      <div class="list-group p-2"> Order Time : {{ obj.order_time }}
       </div>
 
-      <div class="list-group"> Thank you for ordering!
       </div>
-        <a href="#" class="btn btn-primary"> Download Receipt </a>
+
+      <h4> Order will be delivered by : {{ obj.delivery_time }} </h4>
+
   </div>
+        <div class="pd-4">
+        <a href="{% url 'receipt' obj.id %}" class="btn btn-primary"> Download Receipt </a>
+        </div>
+  <div class="card-footer text-muted">Thank you for ordering!</div>
+</div>
 
-    </div>
-    </div>
 
 {% endblock %}

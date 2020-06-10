@@ -1,0 +1,21 @@
+{% extends 'shop/base.html' %}
+{% block body %}
+
+        <article class="media review content-section">
+          <img class="rounded-circle article-img" src="{{ object.author.profilemodel.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <p class="mr-2">{{ object.author }}
+              <small class="text-muted">{{ object.date_posted }}</small></p>
+                {% if object.author == user %}
+                    <a href="{% url 'review-update' object.pk %}" class="btn btn-sm mt-1 mb-1 btn-secondary"> Update </a>
+                    <a href="{% url 'review-delete' object.pk %}" class="btn btn-sm mt-1 mb-1 btn-danger"> Delete </a>
+
+                {% endif %}
+            </div>
+            <h2><p class="article-title">{{ object.title }}</p></h2>
+            <p class="article-content">{{ object.content }}</p>
+          </div>
+        </article>
+
+{% endblock %}

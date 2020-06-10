@@ -23,22 +23,22 @@
 
 </head>
 <body>
-    <nav class="navbar nvb navbar-fixed-top">
+     <nav class="navbar nvb navbar-fixed-top">
         <a href="#" class="navbar-brand"> El Cafe </a>
 
         <div class="navbar">
+
+            <div class="btn btn-danger">
+            <i class="fas fa-shopping-cart"></i>
+            <a tabindex="0" style="color: white;" data-html="true" href="#" id="cart_items"  data-placement="bottom" role="button" data-toggle="popover" data-trigger="focus" title="<h5>Cart Items</h5>" data-content="Your cart is empty! Continue Exploring..">Cart</a>
+        </div>
             <a href="{% url 'index' %}" class="nav-item nav-link"> Menu </a>
 
-            <a href="#" class="nav-item nav-link"> Category </a>
-
-
-
-            <a tabindex="0" data-html="true" href="#" id="cart_items" class="btn btn-lg btn-danger" data-placement="bottom" role="button" data-toggle="popover" data-trigger="focus" title="<h5>Cart Items</h5>" data-content="Your cart is empty! Continue Exploring..">Cart</a>
             <a href="{% url 'reviews' %}" class="nav-item nav-link"> Reviews </a>
 
 
             {% if user.is_authenticated %}
-                <a href="#" class="nav-item nav-link"> Orders </a>
+                <a href="{% url 'myorders' %}" class="nav-item nav-link"> Orders </a>
                 <a href="{% url 'profile' %}" class="nav-item nav-link"> Profile </a>
                 <a href="{% url 'logout' %}"  class="nav-item nav-link"> Log out </a>
 
@@ -53,6 +53,7 @@
         </div>
 
     </nav>
+
     {% if messages %}
         {% for message in messages %}
     <div class="alert alert-{{ message.tags }}">
@@ -66,13 +67,17 @@
 
 
 </body>
-<script type="text/javascript">
+ <script>
 
     if(localStorage.getItem('cart')==null){
         var cart={};
         var item_name={};
         var item_price={};
         var item_discounted_price={};
+        var total_price = 0;
+        var disc_applied = 0;
+        var final_amount = 0;
+        var dish_names = '';
     }
     else{
         cart = JSON.parse(localStorage.getItem('cart'));
@@ -137,8 +142,19 @@ $('.popover-dismiss').popover({
             document.getElementById("cart_items").setAttribute('data-content', cart_string);
 
         }
+    final_amount = JSON.parse(localStorage.getItem('final_amount'));
+    disc_applied = JSON.parse(localStorage.getItem('disc_applied'));
+    total_price = JSON.parse(localStorage.getItem('total_price'));
+    dish_names = JSON.parse(localStorage.getItem('dish_names'));
 
 
+    $('#total_price').val(JSON.stringify(total_price));
+    $('#final_amount').val(JSON.stringify(final_amount));
+    $('#disc_applied').val(JSON.stringify(disc_applied));
+    $('#dish_names').val(JSON.stringify(dish_names));
+    $('#item_quantity').val(JSON.stringify(cart));
+    $('#item_list_price').val(JSON.stringify(item_price));
+    $('#item_list_disc').val(JSON.stringify(item_discounted_price));
 
 </script>
 </html>

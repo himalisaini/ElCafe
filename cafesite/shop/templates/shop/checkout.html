@@ -10,10 +10,13 @@
                 "<tr><th scope='col'>No.</th><th scope='col'>Item name</th><th scope='col'>Price</th> <th scope='col'> Discounted Price</th><th scope='col'>Quantity</th><th scope='col'>Subtotal</th> </tr></thead><tbody>";
 
         var total = 0;
+        var tot2 =0;
         for (var x in cart) {
 
             var sub = item_discounted_price[x].slice(5) * cart[x];
+            var sub2 = item_price[x].slice(5) * cart[x];
             total = total + sub;
+            tot2 = tot2 + sub2;
             console.log(sub);
 
             cart_string +=
@@ -25,6 +28,18 @@
                  "<div class=\"alert alert-info\" role=\"alert\">\n" +
              " Your Total Price is Rs. <b>" + total +
              "</b></div>";
+        final_amount = total;
+        total_price = tot2;
+        disc_applied = total_price - final_amount;
+        dish_names = '';
+        for(var y in item_name){
+            dish_names += "  "+ item_name[y].replace('↵','').replace(/\s+/g," ") + " x"+ cart[y];
+        }
+
+        localStorage.setItem('dish_names',JSON.stringify(dish_names));
+        localStorage.setItem('total_price',JSON.stringify(total_price));
+        localStorage.setItem('disc_applied',JSON.stringify(disc_applied));
+        localStorage.setItem('final_amount',JSON.stringify(final_amount));
         document.getElementById("co-list").innerHTML = cart_string;
     }
 

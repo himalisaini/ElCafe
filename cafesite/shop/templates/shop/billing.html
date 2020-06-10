@@ -2,16 +2,36 @@
 {% block body %}
     {% load crispy_forms_tags %}
 
+    <script>
+    function clearcart() {
+         cart={};
+         item_name={};
+         item_price={};
+         item_discounted_price={};
+         total_price = 0;
+         disc_applied = 0;
+         final_amount = 0;
+         dish_names = '';
+         localStorage.clear();
 
+    }
+    </script>
 
    <div class="content-section">
      <form method="POST">{% csrf_token %}
+         <input type="hidden" id="dish_names" name ="item_list">
+         <input type="hidden" id="item_quantity" name ="item_quantity">
+         <input type="hidden" id="item_list_disc" name ="item_list_disc">
+         <input type="hidden" id="item_list_price" name ="item_list_price">
+         <input type="hidden" id="total_price" name ="total_price">
+         <input type="hidden" id="disc_applied" name ="disc_applied">
+         <input type="hidden" id="final_amount" name ="final_amount">
               <fieldset class="form-group">
                   <legend class="border-bottom mb-4"> Billing Information </legend>
                   {{ form|crispy }}
               </fieldset>
         <div class="form-group" style="text-align: center;">
-        <button type="submit" class="btn btn-info">Order</button>
+        <button onclick="clearcart()" type="submit" class="btn btn-info">Order</button>
             </div>
           </form>
 

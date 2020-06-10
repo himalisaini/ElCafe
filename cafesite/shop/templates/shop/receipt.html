@@ -49,13 +49,13 @@
       </div>
       <div class="list-group"> Delivery Address : {{ obj.address }}
       </div>
-      <div class="list-group"> Item Summary :
+      <div class="list-group"> Item Summary : {{ obj.cart_items }}
       </div>
-      <div class="list-group">  Total Price : Rs.
+      <div class="list-group">  Total Price : Rs.{{ obj.total_price }}
       </div>
-      <div class="list-group"> Discount Applied : Rs.
+      <div class="list-group"> Discount Applied : Rs.{{ obj.discount_applied }}
       </div>
-      <div class="list-group"> Final Amount : Rs.
+      <div class="list-group"> Final Amount : Rs.{{ obj.final_amount }}
       </div>
       <div class="list-group"> Payment mode : {{ obj.payment_mode }}
       </div>
