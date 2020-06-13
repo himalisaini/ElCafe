@@ -95,7 +95,7 @@ class ReviewCreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
         return super().form_valid(form)
 
 
-class ReviewUpdate(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+class ReviewUpdate(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,UpdateView):
     model = Review
     fields = ['title','content']
     success_url = '/review/'
@@ -113,11 +113,11 @@ class ReviewUpdate(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
         return False
 
 
-class ReviewDelete(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+class ReviewDelete(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,DeleteView):
     model = Review
-    template_name = 'shop/review_confirm_delete.html'
     success_url = '/review/'
     success_message = "Your review has been deleted!"
+    template_name = 'shop/review_confirm_delete.html'
 
     def test_func(self):
         review = self.get_object()
